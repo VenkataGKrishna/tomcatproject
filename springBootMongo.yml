@@ -1,0 +1,35 @@
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: tomcatproj
+  name: spring-controller
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: tomcatproj
+    spec:
+      containers:
+      - image: VenkataGKrishna/tomcatproject
+        name: tomcatproj
+        ports:
+        - name: tomcatproj
+          containerPort: 8080      
+---
+# Node Port Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: tomcatproj
+  name: tomcatproj
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: tomcatproj
